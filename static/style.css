@@ -1,0 +1,22 @@
+/* static/style.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h1 {
+    color: #0056b3; /* Example: A blue title */
+    text-align: center;
+}
+
+.scenario-box p:first-child {
+    font-weight: bold;
+}
+
+img {
+    padding: 5px; /* Add some padding around images */
+}
+
+footer {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}

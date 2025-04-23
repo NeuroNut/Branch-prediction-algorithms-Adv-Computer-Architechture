@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branch Predictor Simulation Results</title>
+    <!-- Link to Bootstrap for quick styling (optional but recommended) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link to your custom CSS (optional) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* You can add some simple inline styles too */
+        body { padding-top: 20px; background-color: #f8f9fa; }
+        .container { background-color: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1, h2 { border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-bottom: 20px; color: #343a40; }
+        h2 { margin-top: 30px; }
+        .scenario-box { background-color: #fff3cd; border-left: 5px solid #ffe69c; padding: 15px; margin: 20px 0; border-radius: 5px; }
+        img { margin-top: 20px; margin-bottom: 20px; border: 1px solid #dee2e6; border-radius: 4px; }
+        footer { margin-top: 40px; text-align: center; color: #6c757d; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Branch Predictor Simulation Results</h1>
+
+        <section>
+            <h2>Project Overview</h2>
+            <p>This simulation compares the performance of various traditional branch prediction algorithms against simplified Machine Learning models (inspired by BranchNet) on a synthesized complex branch pattern.</p>
+        </section>
+
+        <section>
+            <h2>Simulated Scenario</h2>
+            <div class="scenario-box">
+                <p>The results below are based on simulating a single, recurring branch instruction at a fixed Program Counter (PC) address: <code>0xABC</code>.</p>
+                <p>The outcome of this branch was deterministically generated using the following logic (no random noise was added for this specific run):</p>
+                <p><strong><code>Outcome = 1 (Taken)</code> if exactly one of the following conditions is true, otherwise <code>Outcome = 0 (Not Taken)</code>:</strong></p>
+                <ul>
+                    <li>Condition 1: The current iteration number <code>i</code> is a multiple of 7 (<code>i % 7 == 0</code>).</li>
+                    <li>Condition 2: The branch outcome 5 steps ago was Not Taken (<code>history[i-5] == 0</code>).</li>
+                </ul>
+                <p><em>This creates an XOR-based pattern dependent on both periodicity and specific past history.</em></p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Predictor Performance Comparison</h2>
+            <p>The following visualizations show the prediction accuracy achieved by each algorithm over 1000 simulated branch executions:</p>
+
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h3>Overall Comparison (Bar Chart)</h3>
+                    <img src="{{ url_for('static', filename='predictor_accuracy_comparison.png') }}" class="img-fluid" alt="Bar chart comparing predictor accuracies">
+                </div>
+            </div>
+            <hr class="my-4">
+             <div class="row text-center">
+                <div class="col-md-6">
+                    <h3>Alternative View (Lollipop Chart)</h3>
+                     <img src="{{ url_for('static', filename='predictor_accuracy_lollipop.png') }}" class="img-fluid" alt="Lollipop chart comparing predictor accuracies">
+                 </div>
+                 <div class="col-md-6">
+                    <h3>Category Comparison (Grouped Bar)</h3>
+                    <img src="{{ url_for('static', filename='predictor_accuracy_grouped.png') }}" class="img-fluid" alt="Grouped bar chart comparing predictor categories">
+                </div>
+            </div>
+             <hr class="my-4">
+             <div class="row text-center">
+                 <div class="col-md-8 offset-md-2">
+                     <h3>Accuracy Profile (Radar Chart)</h3>
+                    <img src="{{ url_for('static', filename='predictor_accuracy_radar.png') }}" class="img-fluid" alt="Radar chart comparing predictor accuracies">
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Results Discussion</h2>
+            <div class="results-discussion">
+                <p>Key observations from the visualizations:</p>
+                <ul>
+                    <li>Simple predictors (1-Bit, 2-Bit) struggle significantly (< 50% accuracy).</li>
+                    <li>The 2-Level predictor shows improvement by leveraging history (~65%).</li>
+                    <li>The Tournament predictor offers marginal improvement over 2-Level (~59%).</li>
+                    <li>The purely CNN-based model (BranchNet_CNN) notably outperforms traditional methods (~83%).</li>
+                    <li>The **BranchNet_LSTM** model achieves the highest accuracy (~91.5%), demonstrating the effectiveness of combining CNN feature extraction with LSTM's sequence modeling for this pattern.</li>
+                    <li>The basic Transformer model tested did not perform as well as CNN or LSTM variants here.</li>
+                </ul>
+                <p>These results strongly suggest that ML models, particularly sequence-aware ones like LSTMs, can effectively learn complex, history-dependent branch patterns where traditional predictors falter.</p>
+                <!-- You can access the results dictionary passed from Flask here if needed -->
+                <!-- Example: <p>LSTM Accuracy: {{ results['BranchNet_LSTM'] }}</p> -->
+            </div>
+        </section>
+
+        <footer>
+            Simulation executed by Aditya Agarwal, Sai Charan, Yogesh Agarwal - 23-04-2025
+        </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Optional Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
